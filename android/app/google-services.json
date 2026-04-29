@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "124649287252",
+    "project_id": "dj-link-1188a",
+    "storage_bucket": "dj-link-1188a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124649287252:android:08dc4b847bfa0f4fd007c1",
+        "android_client_info": {
+          "package_name": "com.example.dj_link"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeE8x2JdwOR0hEv6fenzecPDHEehilc8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

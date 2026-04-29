@@ -1,0 +1,111 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user owns the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Helper function to get user role
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    // Helper function to check if user is DJ
+    function isDJ() {
+      return isAuthenticated() && getUserRole() == 'dj';
+    }
+    
+    // Users collection - users can read their own data, admins can read all
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+    
+    // DJ Profiles - anyone can read, only the DJ can update
+    match /dj_profiles/{profileId} {
+      allow read: if isAuthenticated();
+      allow create: if isDJ();
+      allow update: if isDJ() && resource.data.user_id == request.auth.uid;
+      allow delete: if isDJ() && resource.data.user_id == request.auth.uid;
+    }
+    
+    // Audience Profiles - anyone can read, only owner can update
+    match /audience_profiles/{profileId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if resource.data.user_id == request.auth.uid;
+      allow delete: if resource.data.user_id == request.auth.uid;
+    }
+    
+    // Events - anyone can read, only DJs can create/update their own events
+    match /events/{eventId} {
+      allow read: if isAuthenticated();
+      allow create: if isDJ();
+      allow update: if isDJ() && resource.data.dj_id == request.auth.uid;
+      allow delete: if isDJ() && resource.data.dj_id == request.auth.uid;
+    }
+    
+    // Song Requests - audience can create, DJ can read/update for their events
+    match /song_requests/{requestId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isDJ() || resource.data.audience_id == request.auth.uid;
+      allow delete: if isDJ() || resource.data.audience_id == request.auth.uid;
+    }
+    
+    // Tip Transactions - read only for owners, create for authenticated users
+    match /tip_transactions/{transactionId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if false; // Tips are immutable
+      allow delete: if false; // Tips cannot be deleted
+    }
+    
+    // Event Analytics - DJs can read their own, anyone can read for discovery
+    match /event_analytics/{analyticsId} {
+      allow read: if isAuthenticated();
+      allow create: if isDJ();
+      allow update: if isDJ();
+      allow delete: if isDJ();
+    }
+    
+    // Ban List - only the DJ who banned can manage
+    match /ban_list/{banId} {
+      allow read: if isAuthenticated();
+      allow create: if isDJ();
+      allow update: if isDJ() && resource.data.dj_id == request.auth.uid;
+      allow delete: if isDJ() && resource.data.dj_id == request.auth.uid;
+    }
+
+    // Shoutouts - audience can create, DJs can read/update for their events
+    match /shoutouts/{shoutoutId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isDJ() || resource.data.audience_id == request.auth.uid;
+      allow delete: if isDJ() || resource.data.audience_id == request.auth.uid;
+    }
+
+    // User follows - audience can follow DJs from an event, auth users can read
+    match /user_follows/{followId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated()
+        && request.resource.data.audience_id == request.auth.uid
+        && request.resource.data.dj_id is string
+        && request.resource.data.event_id is string
+        && exists(/databases/$(database)/documents/events/$(request.resource.data.event_id))
+        && get(/databases/$(database)/documents/events/$(request.resource.data.event_id)).data.dj_id == request.resource.data.dj_id;
+      allow update: if false;
+      allow delete: if isAuthenticated() && resource.data.audience_id == request.auth.uid;
+    }
+  }
+}
