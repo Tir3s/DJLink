@@ -20,9 +20,6 @@ class FirestoreService {
 
   static const String _joinCodeChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
-  // ============ EVENTS ============
-
-  // Create new event
   Future<String> createEvent(Event event) async {
     const maxAttempts = 8;
 
@@ -48,7 +45,6 @@ class FirestoreService {
     ).join();
   }
 
-  // Get event by ID
   Future<Event?> getEvent(String eventId) async {
     DocumentSnapshot doc = await _firestore
         .collection('events')
@@ -57,7 +53,6 @@ class FirestoreService {
     return doc.exists ? Event.fromFirestore(doc) : null;
   }
 
-  // Get all events for a DJ
   Stream<List<Event>> getDjEvents(String djId) {
     return _firestore
         .collection('events')
@@ -69,7 +64,6 @@ class FirestoreService {
         );
   }
 
-  // Get live events (active status + events scheduled for today)
   Stream<List<Event>> getLiveEvents() {
     bool isSameDay(DateTime a, DateTime b) {
       return a.year == b.year && a.month == b.month && a.day == b.day;
@@ -97,7 +91,6 @@ class FirestoreService {
     });
   }
 
-  // Get upcoming events (scheduled status)
   Stream<List<Event>> getUpcomingEvents() {
     return _firestore
         .collection('events')
@@ -109,7 +102,6 @@ class FirestoreService {
         );
   }
 
-  // Discover events (scheduled + active)
   Stream<List<Event>> getDiscoverEvents() {
     return _firestore
         .collection('events')
@@ -124,7 +116,6 @@ class FirestoreService {
         });
   }
 
-  // Discover events (all statuses)
   Stream<List<Event>> getAllEvents() {
     return _firestore
         .collection('events')
@@ -135,21 +126,16 @@ class FirestoreService {
         );
   }
 
-  // Update event status
   Future<void> updateEventStatus(String eventId, EventStatus status) async {
     await _firestore.collection('events').doc(eventId).update({
       'status': Event.statusToString(status),
     });
   }
 
-  // Delete event
   Future<void> deleteEvent(String eventId) async {
     await _firestore.collection('events').doc(eventId).delete();
   }
 
-  // ============ SONG REQUESTS ============
-
-  // Submit song request
   Future<String> submitSongRequest(SongRequest request) async {
     final event = await getEvent(request.eventId);
     if (event == null) {
@@ -173,7 +159,6 @@ class FirestoreService {
     return docRef.id;
   }
 
-  // Get all requests for an event (real-time)
   Stream<List<SongRequest>> getEventRequests(String eventId) {
     return _firestore
         .collection('song_requests')
@@ -194,7 +179,6 @@ class FirestoreService {
     return snapshot.docs.map((doc) => SongRequest.fromFirestore(doc)).toList();
   }
 
-  // Get pending requests for an event (priority by tip amount)
   Stream<List<SongRequest>> getPendingRequests(String eventId) {
     return _firestore
         .collection('song_requests')
@@ -208,7 +192,6 @@ class FirestoreService {
         );
   }
 
-  // Update request status
   Future<void> updateRequestStatus(
     String requestId,
     RequestStatus status,
@@ -218,7 +201,6 @@ class FirestoreService {
     });
   }
 
-  // Get audience's requests
   Stream<List<SongRequest>> getAudienceRequests(String audienceId) {
     return _firestore
         .collection('song_requests')
@@ -240,7 +222,6 @@ class FirestoreService {
 
     final Map<String, String> result = {};
 
-    // Firestore whereIn supports up to 10 values per query.
     for (var i = 0; i < ids.length; i += 10) {
       final end = (i + 10 < ids.length) ? i + 10 : ids.length;
       final chunk = ids.sublist(i, end);
@@ -272,7 +253,6 @@ class FirestoreService {
     return result;
   }
 
-  // Get audience requests for a specific event (no orderBy to avoid index)
   Stream<List<SongRequest>> getAudienceRequestsForEvent(
     String audienceId,
     String eventId,
@@ -289,14 +269,10 @@ class FirestoreService {
         );
   }
 
-  // ============ TIPS ============
-
-  // Record tip transaction
   Future<void> recordTip(TipTransaction tip) async {
     await _firestore.collection('tip_transactions').add(tip.toFirestore());
   }
 
-  // Get total tips for event
   Future<double> getEventTips(String eventId) async {
     QuerySnapshot requests = await _firestore
         .collection('song_requests')
@@ -310,9 +286,6 @@ class FirestoreService {
     return total;
   }
 
-  // ============ ANALYTICS ============
-
-  // Get event analytics
   Future<EventAnalytics?> getEventAnalytics(String eventId) async {
     QuerySnapshot analyticsQuery = await _firestore
         .collection('event_analytics')
@@ -326,7 +299,6 @@ class FirestoreService {
     return null;
   }
 
-  // Update analytics after each request
   Future<void> updateEventAnalytics(String eventId) async {
     QuerySnapshot requests = await _firestore
         .collection('song_requests')
@@ -353,7 +325,6 @@ class FirestoreService {
       }
     });
 
-    // Check if analytics doc exists
     QuerySnapshot analyticsQuery = await _firestore
         .collection('event_analytics')
         .where('event_id', isEqualTo: eventId)
@@ -361,14 +332,12 @@ class FirestoreService {
         .get();
 
     if (analyticsQuery.docs.isNotEmpty) {
-      // Update existing
       await analyticsQuery.docs.first.reference.update({
         'total_tips': totalTips,
         'total_requests': requests.docs.length,
         'most_requested_song': mostRequested,
       });
     } else {
-      // Create new
       await _firestore.collection('event_analytics').add({
         'event_id': eventId,
         'total_tips': totalTips,
@@ -377,8 +346,6 @@ class FirestoreService {
       });
     }
   }
-
-  // ============ BAN LIST ============
 
   Future<void> addBan(BanList ban) async {
     final banDocId = '${ban.djId}_${ban.audienceId}';
@@ -410,8 +377,6 @@ class FirestoreService {
     return query.docs.isNotEmpty;
   }
 
-  // ============ SHOUTOUTS ============
-
   Future<String> submitShoutout(Shoutout shoutout) async {
     DocumentReference docRef = await _firestore
         .collection('shoutouts')
@@ -438,8 +403,6 @@ class FirestoreService {
       'status': Shoutout.statusToString(status),
     });
   }
-
-  // ============ PROFILE ============
 
   Stream<Map<String, dynamic>?> getUserDataStream(String userId) {
     return _firestore.collection('users').doc(userId).snapshots().map((doc) {

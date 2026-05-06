@@ -85,7 +85,6 @@ class _AudienceDashboardState extends State<AudienceDashboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // CURRENT EVENT CARD (match DJ style)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(14),
@@ -211,7 +210,7 @@ class _AudienceDashboardState extends State<AudienceDashboard> {
 
               const SizedBox(height: 20),
 
-              // MAIN BLOCK (light shell, DJ theme)
+
               Container(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.55,
@@ -353,7 +352,6 @@ class _AudienceDashboardState extends State<AudienceDashboard> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Tiles row
                     Expanded(
                       child: Row(
                         children: [

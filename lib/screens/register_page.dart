@@ -45,7 +45,6 @@ class _RegisterPageState extends State<RegisterPage> {
       );
 
       if (userCredential != null && mounted) {
-        // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Account created successfully!'),
@@ -53,7 +52,6 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         );
 
-        // Navigate to appropriate dashboard
         if (Session.role == UserRole.dj) {
           Navigator.pushReplacementNamed(context, '/dj_dashboard');
         } else {
@@ -62,7 +60,6 @@ class _RegisterPageState extends State<RegisterPage> {
       }
     } catch (e) {
       setState(() {
-        // Show user-friendly error messages
         String errorMsg = e.toString();
 
         print('Registration error: $errorMsg'); // Debug log

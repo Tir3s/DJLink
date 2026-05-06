@@ -229,7 +229,6 @@ class _DjRequestsPlaylistPageState extends State<DjRequestsPlaylistPage> {
                                     )
                                   : Row(
                                       children: [
-                                        // Left: "vinyl" icon
                                         Container(
                                           width: 52,
                                           height: 52,
@@ -248,7 +247,6 @@ class _DjRequestsPlaylistPageState extends State<DjRequestsPlaylistPage> {
                                         ),
                                         const SizedBox(width: 16),
 
-                                        // Middle: song info
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
@@ -282,7 +280,6 @@ class _DjRequestsPlaylistPageState extends State<DjRequestsPlaylistPage> {
                                           ),
                                         ),
 
-                                        // Right: tip badge + LIVE
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
@@ -440,7 +437,6 @@ class _DjRequestsPlaylistPageState extends State<DjRequestsPlaylistPage> {
                                           ),
                                           child: Row(
                                             children: [
-                                              // Queue position (after sorting)
                                               Container(
                                                 width: 26,
                                                 height: 26,
@@ -460,7 +456,6 @@ class _DjRequestsPlaylistPageState extends State<DjRequestsPlaylistPage> {
                                               ),
                                               const SizedBox(width: 10),
 
-                                              // Song info
                                               Expanded(
                                                 child: Column(
                                                   crossAxisAlignment:
@@ -497,7 +492,6 @@ class _DjRequestsPlaylistPageState extends State<DjRequestsPlaylistPage> {
 
                                               const SizedBox(width: 8),
 
-                                              // Tip + drag handle
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,

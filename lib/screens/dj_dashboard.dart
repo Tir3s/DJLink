@@ -268,7 +268,6 @@ class _DjDashboardPageState extends State<DjDashboardPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // CURRENT EVENT CARD (dark theme)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(14),
@@ -280,7 +279,6 @@ class _DjDashboardPageState extends State<DjDashboardPage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Icon bubble
                     Container(
                       width: 42,
                       height: 42,
@@ -295,7 +293,6 @@ class _DjDashboardPageState extends State<DjDashboardPage> {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    // Text column
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -497,7 +494,6 @@ class _DjDashboardPageState extends State<DjDashboardPage> {
               ),
               const SizedBox(height: 10),
 
-              // TILE BLOCK (light shell with individual cards)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(14),

@@ -194,12 +194,10 @@ class _DjShoutoutsPageState extends State<DjShoutoutsPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Top row: text + tip
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        // Main text
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
@@ -229,7 +227,6 @@ class _DjShoutoutsPageState extends State<DjShoutoutsPage> {
 
                                         const SizedBox(width: 8),
 
-                                        // Tip badge if any
                                         if (shout.tipAmount > 0)
                                           Container(
                                             padding: const EdgeInsets.symmetric(
@@ -255,7 +252,6 @@ class _DjShoutoutsPageState extends State<DjShoutoutsPage> {
 
                                     const SizedBox(height: 8),
 
-                                    // Status text
                                     Text(
                                       'Status: ${_statusLabel(shout.status)}',
                                       style: TextStyle(
@@ -267,7 +263,6 @@ class _DjShoutoutsPageState extends State<DjShoutoutsPage> {
 
                                     const SizedBox(height: 8),
 
-                                    // Action buttons: Accept / Deny / Ban
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

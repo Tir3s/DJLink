@@ -223,7 +223,6 @@ class LiveEventsMapPage extends StatelessWidget {
 
             const SizedBox(height: 8),
 
-            // List / Map toggle (Map selected) – same style as Discover
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Container(

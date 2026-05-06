@@ -58,7 +58,6 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
     try {
       await _firestoreService.updateRequestStatus(requestId, newStatus);
 
-      // Update analytics
       if (AppSession.selectedEvent != null) {
         await _firestoreService.updateEventAnalytics(
           AppSession.selectedEvent!.id,

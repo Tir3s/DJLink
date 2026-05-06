@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-// Import the screens
 import 'screens/welcome_screen.dart';
 import 'screens/login_page.dart';
 import 'screens/register_page.dart';
@@ -53,10 +52,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      // First screen that opens
       initialRoute: '/welcome',
-
-      // Named routes for navigation
       routes: {
         '/welcome': (context) => const WelcomeScreen(),
         '/login': (context) => const LoginPage(),

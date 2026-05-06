@@ -49,7 +49,6 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       if (userCredential != null && mounted) {
-        // Get user role
         final role = await _authService.getUserRole(userCredential.user!.uid);
 
         if (role != null) {
@@ -65,7 +64,6 @@ class _LoginPageState extends State<LoginPage> {
           // Convert Firebase role to Session role
           Session.role = role == UserRole.dj ? UserRole.dj : UserRole.audience;
 
-          // Navigate to appropriate dashboard
           if (role == UserRole.dj) {
             Navigator.pushReplacementNamed(context, '/dj_dashboard');
           } else {
@@ -75,7 +73,6 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       setState(() {
-        // Show user-friendly error messages
         String errorMsg = e.toString();
 
         print('Login error: $errorMsg'); // Debug log

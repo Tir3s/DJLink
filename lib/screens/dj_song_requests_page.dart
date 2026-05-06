@@ -44,7 +44,6 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
   String _filter = 'All';
 
   List<Map<String, dynamic>> get _filteredRequests {
-    // Filter by status
     List<Map<String, dynamic>> list;
     if (_filter == 'All') {
       list = List.of(_requests);
@@ -52,7 +51,6 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
       list = _requests.where((r) => r['status'] == _filter).toList();
     }
 
-    // Sort by tip DESC (higher tip = higher in the list)
     list.sort((a, b) => (b['tip'] as int).compareTo(a['tip'] as int));
     return list;
   }
@@ -162,7 +160,6 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
                         separatorBuilder: (_, __) => const SizedBox(height: 8),
                         itemBuilder: (context, index) {
                           final req = _filteredRequests[index];
-                          // Map back to original list index
                           final originalIndex = _requests.indexOf(req);
                           final status = req['status'] as String;
                           final tip = req['tip'] as int;
@@ -177,11 +174,9 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Top row: main info + tip
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Left: main info
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -217,7 +212,6 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
 
                                     const SizedBox(width: 8),
 
-                                    // Right: tip badge (always present)
                                     Container(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
@@ -243,7 +237,6 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
 
                                 const SizedBox(height: 8),
 
-                                // Status text
                                 Text(
                                   'Status: $status',
                                   style: TextStyle(
@@ -255,7 +248,7 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
 
                                 const SizedBox(height: 8),
 
-                                // Action buttons: Accept / Deny / Ban
+
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,

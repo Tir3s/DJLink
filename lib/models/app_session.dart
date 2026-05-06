@@ -1,5 +1,3 @@
-// lib/models/app_session.dart
-
 class EventSummary {
   final String id;
   final String name;

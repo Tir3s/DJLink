@@ -71,7 +71,6 @@ class _AudienceRequestSongPageRealtimeState
 
       await _firestoreService.submitSongRequest(request);
       try {
-        // Best-effort analytics update; may be restricted for audience users.
         await _firestoreService.updateEventAnalytics(event.id);
       } catch (_) {}
 
@@ -88,7 +87,6 @@ class _AudienceRequestSongPageRealtimeState
           ),
         );
 
-        // Clear form
         _songController.clear();
         _artistController.clear();
         _messageController.clear();
