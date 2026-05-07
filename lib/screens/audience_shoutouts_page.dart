@@ -37,18 +37,12 @@ class _AudienceShoutoutsPageState extends State<AudienceShoutoutsPage> {
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
-      ModernSnackBar.showWarning(
-        context,
-        'Please log in to send a shoutout.',
-      );
+      ModernSnackBar.showWarning(context, 'Please log in to send a shoutout.');
       return;
     }
 
     if (_messageController.text.trim().isEmpty) {
-      ModernSnackBar.showWarning(
-        context,
-        'Shoutout message is required.',
-      );
+      ModernSnackBar.showWarning(context, 'Shoutout message is required.');
       return;
     }
 
@@ -73,10 +67,7 @@ class _AudienceShoutoutsPageState extends State<AudienceShoutoutsPage> {
       }
     } catch (e) {
       if (mounted) {
-        ModernSnackBar.showError(
-          context,
-          'Error sending shoutout: $e',
-        );
+        ModernSnackBar.showError(context, 'Error sending shoutout: $e');
       }
       return;
     }

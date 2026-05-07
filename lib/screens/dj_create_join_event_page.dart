@@ -50,7 +50,9 @@ class _DjCreateJoinEventPageState extends State<DjCreateJoinEventPage> {
   }
 
   void _showSnack(String message) {
-    if (message.contains('Error') || message.contains('require') || message.contains('invalid')) {
+    if (message.contains('Error') ||
+        message.contains('require') ||
+        message.contains('invalid')) {
       ModernSnackBar.showError(context, message);
     } else if (message.contains('must be') || message.contains('Code')) {
       ModernSnackBar.showWarning(context, message);

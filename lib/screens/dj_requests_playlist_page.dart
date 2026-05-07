@@ -49,10 +49,7 @@ class _DjRequestsPlaylistPageState extends State<DjRequestsPlaylistPage> {
       }
     } catch (e) {
       if (mounted) {
-        ModernSnackBar.showError(
-          context,
-          'Error moving to next: $e',
-        );
+        ModernSnackBar.showError(context, 'Error moving to next: $e');
       }
     }
   }

@@ -46,10 +46,7 @@ class _AudienceRequestSongPageRealtimeState
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
-      ModernSnackBar.showWarning(
-        context,
-        'Please log in to submit a request.',
-      );
+      ModernSnackBar.showWarning(context, 'Please log in to submit a request.');
       return;
     }
 

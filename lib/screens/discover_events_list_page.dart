@@ -86,10 +86,7 @@ class _DiscoverEventsListPageState extends State<DiscoverEventsListPage> {
         AppSession.selectedEvent = null;
       }
     } catch (e) {
-      ModernSnackBar.showError(
-        context,
-        'Could not delete event',
-      );
+      ModernSnackBar.showError(context, 'Could not delete event');
     }
   }
 

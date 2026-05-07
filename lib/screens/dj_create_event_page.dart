@@ -40,7 +40,9 @@ class _DjCreateEventPageState extends State<DjCreateEventPage> {
 
   void _showSnack(String message) {
     // Determine if this is an error (contains common error keywords) or info
-    if (message.contains('Error') || message.contains('require') || message.contains('invalid')) {
+    if (message.contains('Error') ||
+        message.contains('require') ||
+        message.contains('invalid')) {
       ModernSnackBar.showError(context, message);
     } else if (message.contains('must be')) {
       ModernSnackBar.showWarning(context, message);

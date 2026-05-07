@@ -36,10 +36,7 @@ class _AudienceRequestSongPageState extends State<AudienceRequestSongPage> {
 
     if (_songController.text.trim().isEmpty ||
         _artistController.text.trim().isEmpty) {
-      ModernSnackBar.showWarning(
-        context,
-        'Song and artist are required.',
-      );
+      ModernSnackBar.showWarning(context, 'Song and artist are required.');
       return;
     }
 
