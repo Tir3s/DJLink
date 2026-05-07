@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/modern_snackbar.dart';
 import '../session.dart';
 import '../models/app_session.dart';
 import '../services/auth_service.dart';
@@ -103,9 +104,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     await _firestoreService.updateUserAvatarIcon(userId, selected.codePoint);
     if (!context.mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Profile icon updated.')));
   }
 
   Future<void> _showConnectionsList(
@@ -126,8 +124,9 @@ class _ProfilePageState extends State<ProfilePage> {
   ) async {
     final selectedEvent = AppSession.selectedEvent;
     if (selectedEvent == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Join an event first to follow a DJ.')),
+      ModernSnackBar.showWarning(
+        context,
+        'Join an event first to follow a DJ.',
       );
       return;
     }
@@ -151,14 +150,12 @@ class _ProfilePageState extends State<ProfilePage> {
         eventId: selectedEvent.id,
       );
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('DJ followed successfully.')),
-      );
       setState(() {});
     } catch (e) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString().replaceFirst('Exception: ', ''))),
+      ModernSnackBar.showError(
+        context,
+        e.toString().replaceFirst('Exception: ', ''),
       );
     }
   }
@@ -335,9 +332,6 @@ class _ProfilePageState extends State<ProfilePage> {
         'tiktok': tiktok.trim(),
       });
       if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Social links updated.')));
     }
   }
 

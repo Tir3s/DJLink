@@ -5,6 +5,7 @@ import '../models/song_request_model.dart';
 import '../models/app_session.dart';
 import '../models/ban_list_model.dart';
 import '../services/firestore_service.dart';
+import '../widgets/modern_snackbar.dart';
 
 class DjSongRequestsPage extends StatefulWidget {
   const DjSongRequestsPage({super.key});
@@ -65,21 +66,11 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
       }
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Request ${_statusLabel(newStatus).toLowerCase()}'),
-            duration: const Duration(seconds: 1),
-          ),
-        );
+        // Action confirmation - removed unnecessary success message
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error updating request: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        ModernSnackBar.showError(context, 'Error updating request: $e');
       }
     }
   }
@@ -88,9 +79,7 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
     final djId = FirebaseAuth.instance.currentUser?.uid;
     if (djId == null) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Please log in again.')));
+        ModernSnackBar.showWarning(context, 'Please log in again.');
       }
       return;
     }
@@ -106,22 +95,14 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
       await _firestoreService.addBan(ban);
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Audience banned. Existing requests stay unchanged; new ones are blocked.',
-            ),
-          ),
+        ModernSnackBar.showInfo(
+          context,
+          'Audience banned. Existing requests stay unchanged; new ones are blocked.',
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error banning audience: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        ModernSnackBar.showError(context, 'Error banning audience: $e');
       }
     }
   }

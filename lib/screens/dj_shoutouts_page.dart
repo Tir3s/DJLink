@@ -3,6 +3,7 @@ import '../models/app_session.dart';
 import '../models/shoutout_model.dart';
 import '../services/firestore_service.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/modern_snackbar.dart';
 
 class DjShoutoutsPage extends StatefulWidget {
   const DjShoutoutsPage({super.key});
@@ -49,21 +50,11 @@ class _DjShoutoutsPageState extends State<DjShoutoutsPage> {
     try {
       await _firestoreService.updateShoutoutStatus(shoutoutId, newStatus);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Shoutout ${_statusLabel(newStatus).toLowerCase()}'),
-            duration: const Duration(seconds: 1),
-          ),
-        );
+        // Action confirmation - removed unnecessary success message
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error updating shoutout: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        ModernSnackBar.showError(context, 'Error updating shoutout: $e');
       }
     }
   }

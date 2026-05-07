@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/app_session.dart';
 import '../models/shoutout_model.dart';
 import '../services/firestore_service.dart';
+import '../widgets/modern_snackbar.dart';
 
 class AudienceShoutoutsPage extends StatefulWidget {
   const AudienceShoutoutsPage({super.key});
@@ -27,25 +28,26 @@ class _AudienceShoutoutsPageState extends State<AudienceShoutoutsPage> {
   Future<void> _submitShoutout() async {
     final event = AppSession.selectedEvent;
     if (event == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please join an event before sending a shoutout.'),
-        ),
+      ModernSnackBar.showWarning(
+        context,
+        'Please join an event before sending a shoutout.',
       );
       return;
     }
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please log in to send a shoutout.')),
+      ModernSnackBar.showWarning(
+        context,
+        'Please log in to send a shoutout.',
       );
       return;
     }
 
     if (_messageController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Shoutout message is required.')),
+      ModernSnackBar.showWarning(
+        context,
+        'Shoutout message is required.',
       );
       return;
     }
@@ -64,21 +66,16 @@ class _AudienceShoutoutsPageState extends State<AudienceShoutoutsPage> {
     try {
       await _firestoreService.submitShoutout(shoutout);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Shoutout sent to ${event.name} with £${_tipAmount.toStringAsFixed(0)} tip',
-            ),
-          ),
+        ModernSnackBar.showSuccess(
+          context,
+          'Shoutout sent to ${event.name} with £${_tipAmount.toStringAsFixed(0)} tip',
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error sending shoutout: $e'),
-            backgroundColor: Colors.red,
-          ),
+        ModernSnackBar.showError(
+          context,
+          'Error sending shoutout: $e',
         );
       }
       return;

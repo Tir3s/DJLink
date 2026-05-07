@@ -45,13 +45,6 @@ class _RegisterPageState extends State<RegisterPage> {
       );
 
       if (userCredential != null && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Account created successfully!'),
-            backgroundColor: Colors.green,
-          ),
-        );
-
         if (Session.role == UserRole.dj) {
           Navigator.pushReplacementNamed(context, '/dj_dashboard');
         } else {

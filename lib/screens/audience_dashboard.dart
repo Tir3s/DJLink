@@ -29,9 +29,6 @@ class _AudienceDashboardState extends State<AudienceDashboard> {
   void _leaveEvent() {
     AppSession.selectedEvent = null;
     setState(() {});
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Left current event')));
   }
 
   Color _statusColor(RequestStatus status) {

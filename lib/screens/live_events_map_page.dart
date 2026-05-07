@@ -5,6 +5,7 @@ import '../models/app_session.dart';
 import '../models/event_model.dart';
 import '../services/firestore_service.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/modern_snackbar.dart';
 import 'live_events_list_page.dart';
 
 class LiveEventsMapPage extends StatelessWidget {
@@ -159,9 +160,7 @@ class LiveEventsMapPage extends StatelessWidget {
                         final message = now.isBefore(event.joinOpensAt)
                             ? 'Join opens 2 hours before start time.'
                             : 'This event has ended and can no longer be joined.';
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(SnackBar(content: Text(message)));
+                        ModernSnackBar.showWarning(context, message);
                         return;
                       }
 
@@ -176,9 +175,6 @@ class LiveEventsMapPage extends StatelessWidget {
                       );
 
                       Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Joined ${event.eventName}')),
-                      );
                     },
                     icon: const Icon(Icons.login, size: 18),
                     label: Text(

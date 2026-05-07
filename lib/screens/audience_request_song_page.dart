@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/app_session.dart';
+import '../widgets/modern_snackbar.dart';
 
 class AudienceRequestSongPage extends StatefulWidget {
   const AudienceRequestSongPage({super.key});
@@ -26,29 +27,25 @@ class _AudienceRequestSongPageState extends State<AudienceRequestSongPage> {
   void _submitRequest() {
     final event = AppSession.selectedEvent;
     if (event == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please join an event before sending a request.'),
-        ),
+      ModernSnackBar.showWarning(
+        context,
+        'Please join an event before sending a request.',
       );
       return;
     }
 
     if (_songController.text.trim().isEmpty ||
         _artistController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Song and artist are required.')),
+      ModernSnackBar.showWarning(
+        context,
+        'Song and artist are required.',
       );
       return;
     }
 
-    // TODO: send this to backend later
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Song request sent to ${event.name} with £${_tipAmount.toStringAsFixed(0)} tip',
-        ),
-      ),
+    ModernSnackBar.showSuccess(
+      context,
+      'Song request sent to ${event.name} with £${_tipAmount.toStringAsFixed(0)} tip',
     );
 
     _songController.clear();

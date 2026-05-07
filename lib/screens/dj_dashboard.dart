@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/modern_snackbar.dart';
 import '../models/app_session.dart';
 import '../models/event_model.dart';
 import '../services/firestore_service.dart';
@@ -195,9 +196,13 @@ class _DjDashboardPageState extends State<DjDashboardPage> {
   }
 
   void _showSnack(BuildContext context, String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    if (message.contains('Error') || message.contains('invalid')) {
+      ModernSnackBar.showError(context, message);
+    } else if (message.contains('can')) {
+      ModernSnackBar.showWarning(context, message);
+    } else {
+      ModernSnackBar.showInfo(context, message);
+    }
   }
 
   void _leaveEvent(BuildContext context) {

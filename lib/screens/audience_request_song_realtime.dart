@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/app_session.dart';
 import '../models/song_request_model.dart';
 import '../services/firestore_service.dart';
+import '../widgets/modern_snackbar.dart';
 
 class AudienceRequestSongPageRealtime extends StatefulWidget {
   const AudienceRequestSongPageRealtime({super.key});
@@ -36,18 +37,18 @@ class _AudienceRequestSongPageRealtimeState
 
     final event = AppSession.selectedEvent;
     if (event == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please join an event before sending a request.'),
-        ),
+      ModernSnackBar.showWarning(
+        context,
+        'Please join an event before sending a request.',
       );
       return;
     }
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please log in to submit a request.')),
+      ModernSnackBar.showWarning(
+        context,
+        'Please log in to submit a request.',
       );
       return;
     }
@@ -75,16 +76,12 @@ class _AudienceRequestSongPageRealtimeState
       } catch (_) {}
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Song request sent to ${event.name}' +
-                  (_tipAmount > 0
-                      ? ' with £${_tipAmount.toStringAsFixed(2)} tip'
-                      : ''),
-            ),
-            backgroundColor: Colors.green,
-          ),
+        ModernSnackBar.showSuccess(
+          context,
+          'Song request sent to ${event.name}' +
+              (_tipAmount > 0
+                  ? ' with £${_tipAmount.toStringAsFixed(2)} tip'
+                  : ''),
         );
 
         _songController.clear();
@@ -102,24 +99,14 @@ class _AudienceRequestSongPageRealtimeState
         setState(() {
           _isSubmitting = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.message),
-            backgroundColor: Colors.orangeAccent,
-          ),
-        );
+        ModernSnackBar.showWarning(context, e.message);
       }
     } catch (e) {
       if (mounted) {
         setState(() {
           _isSubmitting = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error submitting request: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        ModernSnackBar.showError(context, 'Error submitting request: $e');
       }
     }
   }

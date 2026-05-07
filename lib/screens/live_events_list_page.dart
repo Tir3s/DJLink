@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/modern_snackbar.dart';
 import '../models/app_session.dart';
 import '../models/event_model.dart';
 import '../services/firestore_service.dart';
@@ -294,19 +295,13 @@ class _LiveEventsListPageState extends State<LiveEventsListPage> {
                                             now.isBefore(event.joinOpensAt)
                                             ? 'Join opens 2 hours before start time.'
                                             : 'This event has ended and can no longer be joined.';
-                                        ScaffoldMessenger.of(
+                                        ModernSnackBar.showWarning(
                                           context,
-                                        ).showSnackBar(
-                                          SnackBar(content: Text(message)),
+                                          message,
                                         );
                                         return;
                                       }
                                       AppSession.selectedEvent = summary;
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text('Joined ${summary.name}'),
-                                        ),
-                                      );
                                     },
                                     child: const Text('Join'),
                                   ),

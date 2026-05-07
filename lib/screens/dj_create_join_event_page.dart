@@ -6,6 +6,7 @@ import 'package:latlong2/latlong.dart';
 import '../models/app_session.dart';
 import '../models/event_model.dart';
 import '../services/firestore_service.dart';
+import '../widgets/modern_snackbar.dart';
 
 class DjCreateJoinEventPage extends StatefulWidget {
   const DjCreateJoinEventPage({super.key});
@@ -49,9 +50,13 @@ class _DjCreateJoinEventPageState extends State<DjCreateJoinEventPage> {
   }
 
   void _showSnack(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    if (message.contains('Error') || message.contains('require') || message.contains('invalid')) {
+      ModernSnackBar.showError(context, message);
+    } else if (message.contains('must be') || message.contains('Code')) {
+      ModernSnackBar.showWarning(context, message);
+    } else {
+      ModernSnackBar.showInfo(context, message);
+    }
   }
 
   Future<void> _initLocation() async {

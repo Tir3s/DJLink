@@ -3,6 +3,7 @@ import '../models/app_session.dart';
 import '../models/song_request_model.dart';
 import '../services/firestore_service.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/modern_snackbar.dart';
 
 class DjRequestsPlaylistPage extends StatefulWidget {
   const DjRequestsPlaylistPage({super.key});
@@ -48,11 +49,9 @@ class _DjRequestsPlaylistPageState extends State<DjRequestsPlaylistPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error moving to next: $e'),
-            backgroundColor: Colors.red,
-          ),
+        ModernSnackBar.showError(
+          context,
+          'Error moving to next: $e',
         );
       }
     }

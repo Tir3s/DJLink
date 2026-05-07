@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/app_session.dart';
 import '../models/event_model.dart';
 import '../services/firestore_service.dart';
+import '../widgets/modern_snackbar.dart';
 // Bottom nav intentionally hidden on this flow page
 
 class DjCreateEventPage extends StatefulWidget {
@@ -38,9 +39,14 @@ class _DjCreateEventPageState extends State<DjCreateEventPage> {
   }
 
   void _showSnack(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    // Determine if this is an error (contains common error keywords) or info
+    if (message.contains('Error') || message.contains('require') || message.contains('invalid')) {
+      ModernSnackBar.showError(context, message);
+    } else if (message.contains('must be')) {
+      ModernSnackBar.showWarning(context, message);
+    } else {
+      ModernSnackBar.showInfo(context, message);
+    }
   }
 
   String _buildDisplayTime() {

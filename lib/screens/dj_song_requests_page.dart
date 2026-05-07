@@ -59,13 +59,6 @@ class _DjSongRequestsPageState extends State<DjSongRequestsPage> {
     setState(() {
       _requests[index]['status'] = newStatus;
     });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Request ${newStatus.toLowerCase()}'),
-        duration: const Duration(seconds: 1),
-      ),
-    );
   }
 
   Color _statusColor(String status) {

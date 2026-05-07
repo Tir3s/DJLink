@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/modern_snackbar.dart';
 import '../models/app_session.dart';
 import '../models/event_model.dart';
 import '../services/firestore_service.dart';
@@ -84,13 +85,11 @@ class _DiscoverEventsListPageState extends State<DiscoverEventsListPage> {
       if (AppSession.selectedEvent?.id == event.eventId) {
         AppSession.selectedEvent = null;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Deleted ${event.eventName}')));
     } catch (e) {
-      ScaffoldMessenger.of(
+      ModernSnackBar.showError(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Could not delete event')));
+        'Could not delete event',
+      );
     }
   }
 
