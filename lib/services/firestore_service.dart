@@ -349,10 +349,10 @@ class FirestoreService {
 
   Future<void> addBan(BanList ban) async {
     final banDocId = '${ban.djId}_${ban.audienceId}';
-    await _firestore.collection('ban_list').doc(banDocId).set(
-      ban.toFirestore(),
-      SetOptions(merge: true),
-    );
+    await _firestore
+        .collection('ban_list')
+        .doc(banDocId)
+        .set(ban.toFirestore(), SetOptions(merge: true));
   }
 
   Future<bool> isAudienceBannedForDj({

@@ -80,7 +80,7 @@ class _AudienceRequestSongPageRealtimeState
             content: Text(
               'Song request sent to ${event.name}' +
                   (_tipAmount > 0
-                    ? ' with £${_tipAmount.toStringAsFixed(2)} tip'
+                      ? ' with £${_tipAmount.toStringAsFixed(2)} tip'
                       : ''),
             ),
             backgroundColor: Colors.green,

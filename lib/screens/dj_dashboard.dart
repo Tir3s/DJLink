@@ -657,13 +657,12 @@ class _DjDashboardPageState extends State<DjDashboardPage> {
                                         builder: (context, shoutSnapshot) {
                                           final shoutouts =
                                               shoutSnapshot.data ?? [];
-                                          final shoutoutTotal = shoutouts.fold<
-                                            double
-                                          >(
-                                            0.0,
-                                            (sum, shout) =>
-                                                sum + shout.tipAmount,
-                                          );
+                                          final shoutoutTotal = shoutouts
+                                              .fold<double>(
+                                                0.0,
+                                                (sum, shout) =>
+                                                    sum + shout.tipAmount,
+                                              );
                                           final total =
                                               requestTotal + shoutoutTotal;
 

@@ -216,103 +216,110 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                if (_rememberedAccounts.isNotEmpty) ...[
-                  DropdownButtonFormField<RememberedAccount>(
-                    initialValue: _selectedRememberedAccount,
-                    decoration: const InputDecoration(
-                      labelText: 'Quick login suggestion',
-                    ),
-                    items: _rememberedAccounts
-                        .map(
-                          (account) => DropdownMenuItem<RememberedAccount>(
-                            value: account,
-                            child: Text(
-                              '${account.email} (${account.role == UserRole.dj ? 'DJ' : 'Audience'})',
-                            ),
+                      if (_rememberedAccounts.isNotEmpty) ...[
+                        DropdownButtonFormField<RememberedAccount>(
+                          initialValue: _selectedRememberedAccount,
+                          decoration: const InputDecoration(
+                            labelText: 'Quick login suggestion',
                           ),
-                        )
-                        .toList(),
-                    onChanged: _isLoading
-                        ? null
-                        : (value) {
-                            setState(() {
-                              _selectedRememberedAccount = value;
-                            });
-                          },
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed:
-                          (_isLoading || _selectedRememberedAccount == null)
-                          ? null
-                          : _quickLoginFromSuggestion,
-                      child: const Text('Quick login (2h)'),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-                if (_errorMessage != null)
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    margin: const EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.red),
-                    ),
-                    child: Text(
-                      _errorMessage!,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  ),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : _login,
-                    child: _isLoading
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Text('Log in'),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
-                  child: const Text('Don\'t have an account? Register'),
-                ),
+                          items: _rememberedAccounts
+                              .map(
+                                (
+                                  account,
+                                ) => DropdownMenuItem<RememberedAccount>(
+                                  value: account,
+                                  child: Text(
+                                    '${account.email} (${account.role == UserRole.dj ? 'DJ' : 'Audience'})',
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: _isLoading
+                              ? null
+                              : (value) {
+                                  setState(() {
+                                    _selectedRememberedAccount = value;
+                                  });
+                                },
+                        ),
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            onPressed:
+                                (_isLoading ||
+                                    _selectedRememberedAccount == null)
+                                ? null
+                                : _quickLoginFromSuggestion,
+                            child: const Text('Quick login (2h)'),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                      if (_errorMessage != null)
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.red),
+                          ),
+                          child: Text(
+                            _errorMessage!,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(labelText: 'Email'),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          if (!value.contains('@')) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _isLoading ? null : _login,
+                          child: _isLoading
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Text('Log in'),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/register');
+                        },
+                        child: const Text('Don\'t have an account? Register'),
+                      ),
                     ],
                   ),
                 ),

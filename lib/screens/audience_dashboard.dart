@@ -210,7 +210,6 @@ class _AudienceDashboardState extends State<AudienceDashboard> {
 
               const SizedBox(height: 20),
 
-
               Container(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.55,
